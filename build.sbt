@@ -4,8 +4,8 @@ lazy val scalaSMTLib = {
   RootProject(uri(githubLink))
 }
 
-lazy val scalaCafeSAT = (project in file(".")).
-  settings(
+lazy val scalaCafeSAT = (project in file("."))
+  .settings(
     name := "CafeSat",
     organization := "com.regblanc",
     version := "0.01",
