@@ -11,7 +11,6 @@ lazy val scalaCafeSAT = (project in file(".")).
     version := "0.01",
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.4" % "test",
-
-    parallelExecution in Test := true,
+    Test / parallelExecution := true,
   )
   .dependsOn(scalaSMTLib)
