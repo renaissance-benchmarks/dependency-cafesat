@@ -1,20 +1,3 @@
-lazy val cafesat = taskKey[File]("Create the main run script")
-
-lazy val runnerScriptTemplate = 
-"""#!/bin/sh
-java -classpath "%s" %s "$@"
-"""
-
-cafesat := {
-  val cp = (fullClasspath in Runtime).value
-  val mainClass = "cafesat.Main"
-  val contents = runnerScriptTemplate.format(cp.files.absString, mainClass)
-  val out = target.value / "cafesat"
-  IO.write(out, contents)
-  out.setExecutable(true)
-  out
-}
-
 lazy val root = (project in file(".")).
   settings(
     name := "CafeSat",
