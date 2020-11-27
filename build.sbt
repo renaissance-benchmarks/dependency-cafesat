@@ -13,4 +13,5 @@ lazy val scalaCafeSAT = (project in file(".")).
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.4" % "test",
     Test / parallelExecution := true,
   )
-  .dependsOn(scalaSMTLib)
+  .dependsOn(scalaSMTLib % "compile->compile; compile->test")
+  .aggregate(scalaSMTLib)
