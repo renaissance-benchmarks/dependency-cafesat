@@ -10,9 +10,8 @@ lazy val scalaCafeSAT = (project in file(".")).
     organization := "com.regblanc",
     version := "0.01",
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.4" % "test",
 
     parallelExecution in Test := true,
-
-    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "test,it"
   )
   .dependsOn(scalaSMTLib)
