@@ -1,6 +1,6 @@
 lazy val scalaSMTLib = {
-  val commit = "004fab30fc294677a14429fad2cd95ab4d366416"
-  val githubLink = s"git://github.com/regb/scala-smtlib.git#$commit"
+  val commit = "3a51d3a2a8def2fe7221530fa4368f9b3c3a606d"
+  val githubLink = s"git://github.com/renaissance-benchmarks/dependency-scala-smtlib.git#$commit"
   RootProject(uri(githubLink))
 }
 
