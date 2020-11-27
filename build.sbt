@@ -1,6 +1,7 @@
 lazy val root = (project in file(".")).
   settings(
     name := "CafeSat",
+    organization := "com.regblanc",
     version := "0.01",
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
 
