@@ -1,4 +1,4 @@
-lazy val root = (project in file(".")).
+lazy val scalaCafeSAT = (project in file(".")).
   settings(
     name := "CafeSat",
     organization := "com.regblanc",
