@@ -1,3 +1,9 @@
+lazy val scalaSMTLib = {
+  val commit = "004fab30fc294677a14429fad2cd95ab4d366416"
+  val githubLink = s"git://github.com/regb/scala-smtlib.git#$commit"
+  RootProject(uri(githubLink))
+}
+
 lazy val scalaCafeSAT = (project in file(".")).
   settings(
     name := "CafeSat",
@@ -14,10 +20,4 @@ lazy val scalaCafeSAT = (project in file(".")).
   ).
   configs( IntegrationTest ).
   settings( Defaults.itSettings : _*).
-  dependsOn(scalaSmtLib)
-
-lazy val scalaSmtLib = {
-  val commit = "004fab30fc294677a14429fad2cd95ab4d366416"
-  val githubLink = s"git://github.com/regb/scala-smtlib.git#$commit"
-  RootProject(uri(githubLink))
-}
+  dependsOn(scalaSMTLib)
