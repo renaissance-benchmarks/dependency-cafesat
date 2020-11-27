@@ -14,20 +14,3 @@ lazy val root = (project in file("."))
 
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.20" % Test
   )
-
-lazy val it = (project in file("it"))
-  .dependsOn(root)
-  .settings(commonSettings)
-  .settings(
-    name := "CafeSat-it",
-
-    // Stick to the original src/it directory layout.
-    Test / scalaSource := baseDirectory.value / ".." / "src" / "it" / "scala",
-    Test / resourceDirectory := baseDirectory.value / ".." / "src" / "it" / "resources",
-
-    Test / javaOptions += "-Xss10M",
-    Test / fork := true,
-    Test / logBuffered := false,
-
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.20" % Test
-  )
