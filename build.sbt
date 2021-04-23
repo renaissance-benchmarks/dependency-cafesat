@@ -11,7 +11,7 @@ writeVersion := {
 }
 
 lazy val scalaSMTLib = {
-  val commit = "3a51d3a2a8def2fe7221530fa4368f9b3c3a606d"
+  val commit = "8def9629457c15cd14a01a56984dd3fe6699a5eb"
   val githubLink = s"git://github.com/renaissance-benchmarks/dependency-scala-smtlib.git#$commit"
   RootProject(uri(githubLink))
 }
