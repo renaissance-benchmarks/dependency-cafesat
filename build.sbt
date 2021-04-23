@@ -1,15 +1,3 @@
-enablePlugins(GitVersioning)
-
-git.useGitDescribe := true
-
-lazy val writeVersion = taskKey[File]("Writes project version into version.sbt")
-
-writeVersion := {
-  val out = file("version.sbt")
-  IO.write(out, "version := "+'"'+ version.value +'"')
-  out
-}
-
 lazy val commonSettings = Seq(
   organization := "com.regblanc",
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
@@ -22,7 +10,6 @@ lazy val scalaCafeSAT = (project in file("."))
     name := "CafeSat",
 
     Test / parallelExecution := true,
-    writeVersion / aggregate := false,
 
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.20" % Test
   )
