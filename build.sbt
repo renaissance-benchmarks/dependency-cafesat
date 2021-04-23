@@ -1,40 +1,29 @@
-lazy val cafesat = taskKey[File]("Create the main run script")
+enablePlugins(GitVersioning)
 
-lazy val runnerScriptTemplate = 
-"""#!/bin/sh
-java -classpath "%s" %s "$@"
-"""
+git.useGitDescribe := true
 
-cafesat := {
-  val cp = (fullClasspath in Runtime).value
-  val mainClass = "cafesat.Main"
-  val contents = runnerScriptTemplate.format(cp.files.absString, mainClass)
-  val out = target.value / "cafesat"
-  IO.write(out, contents)
-  out.setExecutable(true)
+lazy val writeVersion = taskKey[File]("Writes project version into version.sbt")
+
+writeVersion := {
+  val out = file("version.sbt")
+  IO.write(out, "version := "+'"'+ version.value +'"')
   out
 }
 
-lazy val root = (project in file(".")).
-  settings(
-    name := "CafeSat",
-    version := "0.01",
-    scalaVersion := "2.11.7",
-    scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
-
-    javaOptions in IntegrationTest ++= Seq("-Xss10M"),
-    fork in IntegrationTest := true,
-    logBuffered in IntegrationTest := false,
-    parallelExecution in Test := true,
-
-    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "test,it"
-  ).
-  configs( IntegrationTest ).
-  settings( Defaults.itSettings : _*).
-  dependsOn(scalaSmtLib)
-
-lazy val scalaSmtLib = {
-  val commit = "004fab30fc294677a14429fad2cd95ab4d366416"
-  val githubLink = s"git://github.com/regb/scala-smtlib.git#$commit"
+lazy val scalaSMTLib = {
+  val commit = "8def9629457c15cd14a01a56984dd3fe6699a5eb"
+  val githubLink = s"git://github.com/renaissance-benchmarks/dependency-scala-smtlib.git#$commit"
   RootProject(uri(githubLink))
 }
+
+lazy val scalaCafeSAT = (project in file("."))
+  .settings(
+    name := "CafeSat",
+    organization := "com.regblanc",
+    scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.4" % "test",
+    Test / parallelExecution := true,
+    writeVersion / aggregate := false,
+  )
+  .dependsOn(scalaSMTLib % "compile->compile; compile->test")
+  .aggregate(scalaSMTLib)
