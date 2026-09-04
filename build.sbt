@@ -1,50 +1,28 @@
-lazy val cafesat = taskKey[File]("Create the main run script")
+enablePlugins(GitVersioning)
 
-lazy val runnerScriptTemplate = 
-"""#!/bin/sh
-java -classpath "%s" %s "$@"
-"""
+git.useGitDescribe := true
 
-cafesat := {
-  val cp = (Runtime / fullClasspath).value
-  val mainClass = "cafesat.Main"
-  val contents = runnerScriptTemplate.format(cp.files.absString, mainClass)
-  val out = target.value / "cafesat"
-  IO.write(out, contents)
-  out.setExecutable(true)
+lazy val writeVersion = taskKey[File]("Writes project version into version.sbt")
+
+writeVersion := {
+  val out = file("version.sbt")
+  IO.write(out, "version := "+'"'+ version.value +'"')
   out
 }
 
 lazy val commonSettings = Seq(
-  version := "0.01",
-  scalaVersion := "2.13.18",
+  organization := "com.regblanc",
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
   crossScalaVersions := Seq("2.13.18", "3.3.8")
 )
 
-lazy val root = (project in file("."))
+lazy val scalaCafeSAT = (project in file("."))
   .settings(commonSettings)
   .settings(
     name := "CafeSat",
 
     Test / parallelExecution := true,
-
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.20" % Test
-  )
-
-lazy val it = (project in file("it"))
-  .dependsOn(root)
-  .settings(commonSettings)
-  .settings(
-    name := "CafeSat-it",
-
-    // Stick to the original src/it directory layout.
-    Test / scalaSource := baseDirectory.value / ".." / "src" / "it" / "scala",
-    Test / resourceDirectory := baseDirectory.value / ".." / "src" / "it" / "resources",
-
-    Test / javaOptions += "-Xss10M",
-    Test / fork := true,
-    Test / logBuffered := false,
+    writeVersion / aggregate := false,
 
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.20" % Test
   )
